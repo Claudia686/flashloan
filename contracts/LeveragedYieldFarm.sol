@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+ // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.18;
 
 import "@balancer-labs/v2-interfaces/contracts/vault/IVault.sol";
@@ -101,10 +101,8 @@ contract LeveragedYieldFarm is IFlashLoanRecipient {
 
         // Get DAI Flash Loan for "DEPOSIT"
         bool isDeposit = true;
-        getFlashLoan(daiAddress, flashLoanAmount, totalAmount, isDeposit); // execution goes to `receiveFlashLoan`
-
+        getFlashLoan(daiAddress, flashLoanAmount, totalAmount, isDeposit); 
         // Handle remaining execution inside handleDeposit() function
-
         return true;
     }
 
@@ -201,6 +199,22 @@ contract LeveragedYieldFarm is IFlashLoanRecipient {
             (data.flashAmount + feeAmounts[0])
         );
     }
+
+
+function getBalance() external view returns (uint256) {
+    return dai.balanceOf(address(this));
+}
+
+
+// Inside the LeveragedYieldFarm contract
+function getContractBalance() external view returns (uint256) {
+    return dai.balanceOf(address(this));
+}
+
+
+
+
+
 
     function handleDeposit(
         uint256 totalAmount,

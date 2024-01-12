@@ -3,7 +3,7 @@ const hre = require("hardhat")
 async function main() {
   const leveragedYieldFarm = await hre.ethers.deployContract("LeveragedYieldFarm")
   await leveragedYieldFarm.waitForDeployment()
-
+  
   console.log(`Leveraged Yield Farm deployed to ${await leveragedYieldFarm.getAddress()}`)
 }
 

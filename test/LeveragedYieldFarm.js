@@ -1,6 +1,10 @@
 const hre = require("hardhat")
-const { mine } = require("@nomicfoundation/hardhat-network-helpers")
-const { expect } = require("chai")
+const {
+  mine
+} = require("@nomicfoundation/hardhat-network-helpers")
+const {
+  expect
+} = require("chai")
 
 const ERC20 = require('@openzeppelin/contracts/build/contracts/ERC20.json')
 const UniswapV2Router02 = require('@uniswap/v2-periphery/build/IUniswapV2Router02.json')
@@ -42,7 +46,9 @@ describe('LeveragedYieldFarm', () => {
       const ethBalanceBefore = await hre.ethers.provider.getBalance(deployer.address)
       const daiBalanceBefore = await dai.connect(deployer).balanceOf(deployer.address)
 
-      await uRouter.connect(deployer).swapExactETHForTokens(0, PATH, deployer.address, DEADLINE, { value: AMOUNT })
+      await uRouter.connect(deployer).swapExactETHForTokens(0, PATH, deployer.address, DEADLINE, {
+        value: AMOUNT
+      })
 
       const ethBalanceAfter = await hre.ethers.provider.getBalance(deployer.address)
       const daiBalanceAfter = await dai.balanceOf(deployer.address)
@@ -85,7 +91,9 @@ describe('LeveragedYieldFarm', () => {
 
       console.log(`\nFast forwarding ${BLOCKS_TO_MINE} Block...\n`)
 
-      await mine(BLOCKS_TO_MINE, { interval: 12 })
+      await mine(BLOCKS_TO_MINE, {
+        interval: 12
+      })
 
       // Taking profits
       await leveragedYieldFarm.connect(deployer).withdrawDai(hre.ethers.parseUnits('1', 'ether'))
