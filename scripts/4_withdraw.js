@@ -4,9 +4,14 @@
  } = require('ethers');
  const ERC20 = require('@openzeppelin/contracts/build/contracts/ERC20.json')
 
+const hre = require("hardhat")
 
 async function main() {
-  let dai, balanceOf
+    // Withdraws DAI 
+    const withdrawDaiAmount = ethers.utils.parseEther("5")
+    await LeveragedYieldFarm.withdrawDai(withdrawDaiAmount)
+    console.log(`Withdraw ${withdrawDaiAmount} DAI from leveraged YieldFarm`)
+  let dai
 
   const [deployer] = await hre.ethers.getSigners();
   const daiAddress = "0x6B175474E89094C44Da98b954EedeAC495271d0F"
@@ -14,7 +19,6 @@ async function main() {
 
    // Setup DAI contract...
    dai = new hre.ethers.Contract(daiAddress, ERC20.abi, deployer)
-
 
   const ethBalanceBefore = await hre.ethers.provider.getBalance(deployer.address)
   console.log('ETH Balance before withdrawing', ethers.formatEther(ethBalanceBefore));
@@ -25,12 +29,10 @@ async function main() {
   const daiBalanceBefore = await dai.balanceOf(leveragedYieldFarm)
   console.log('Dai Balance before withdrawing', ethers.formatUnits(daiBalanceBefore));
 
-  // Withdraws DAI 
   const initialAmount = ethers.parseEther('10', 'ether');
   const withdrawTransaction = await leveragedYieldFarm.withdrawDai(initialAmount)
   await withdrawTransaction.wait()
   console.log(`Withdraw Successful!`)
-
 
   const ethBalanceAfter = await hre.ethers.provider.getBalance(deployer.address);
   console.log('ETH Balance after withdrawing', ethers.formatEther(ethBalanceAfter));
@@ -43,6 +45,3 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});

@@ -42,7 +42,7 @@ contract LeveragedYieldFarm is IFlashLoanRecipient {
     // Compound's COMP ERC-20 token
     // https://etherscan.io/token/0xc00e94cb662c3520282e6f5717214004a7f26888
     IERC20 constant compToken =
-        IERC20(0xc00e94Cb662C3520282E6f5717214004A7f26888);
+    IERC20(0xc00e94Cb662C3520282E6f5717214004A7f26888);
 
     // Mainnet Comptroller
     // https://etherscan.io/address/0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b
@@ -161,7 +161,7 @@ contract LeveragedYieldFarm is IFlashLoanRecipient {
         vault.flashLoan(this, tokens, amounts, userData); // execution goes to `receiveFlashLoan`
     }
 
-    /**
+    /*
      * @dev This is the function that will be called postLoan
      * i.e. Encode the logic to handle your flashloaned funds here
      */
@@ -205,16 +205,10 @@ function getBalance() external view returns (uint256) {
     return dai.balanceOf(address(this));
 }
 
-
 // Inside the LeveragedYieldFarm contract
 function getContractBalance() external view returns (uint256) {
     return dai.balanceOf(address(this));
 }
-
-
-
-
-
 
     function handleDeposit(
         uint256 totalAmount,

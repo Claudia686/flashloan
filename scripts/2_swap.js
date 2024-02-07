@@ -1,30 +1,28 @@
- hre = require("hardhat")
+ const config = require('../scripts/config.json');
+ hre = require("hardhat");
  const {
    ethers
  } = require('ethers');
  const ERC20 = require('@openzeppelin/contracts/build/contracts/ERC20.json')
 
  async function main() {
-   let dai, uRouter, leveragedYieldFarmAddress
-
    const [deployer] = await hre.ethers.getSigners();
-   const daiAddress = "0x6B175474E89094C44Da98b954EedeAC495271d0F"
-   const leveragedYieldFarm = "0x1c1521cf734CD13B02e8150951c3bF2B438be780"
-   const UNISWAP_ROUTER = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"
+   const daiAddress = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
+   const leveragedYieldFarmAddress = "0x15F2ea83eB97ede71d84Bd04fFF29444f6b7cd52";
+   const UNISWAP_ROUTER = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";
 
    // Setup DAI contract...
-   dai = new hre.ethers.Contract(daiAddress, ERC20.abi, deployer)
+   const dai = new hre.ethers.Contract(daiAddress, ERC20.abi, deployer)
 
    // Swap ETH for DAI..Router contract 
    const UniswapV2Router02 = require('@uniswap/v2-periphery/build/IUniswapV2Router02.json')
-   uRouter = new hre.ethers.Contract(UNISWAP_ROUTER, UniswapV2Router02.abi, deployer);
+   const uRouter = new hre.ethers.Contract(UNISWAP_ROUTER, UniswapV2Router02.abi, deployer);
 
    const ethBalanceBefore = await hre.ethers.provider.getBalance(deployer.address);
-   console.log("ETH Balance Before swap:", ethers.formatEther(ethBalanceBefore));
+   console.log("ETH Balance before:", ethers.formatEther(ethBalanceBefore));
 
-   // Get DAI balance after the swap
-   const daiBalanceBefore = await dai.balanceOf(leveragedYieldFarm);
-   console.log("DAI Balance Before swap:", ethers.formatEther(daiBalanceBefore));
+   const daiBalanceBefore = await dai.balanceOf(leveragedYieldFarmAddress);
+   console.log("DAI Balance before:", ethers.formatUnits(daiBalanceBefore));
 
    const amountToSwap = ethers.parseUnits('1', 'ether');
    const deadline = Math.floor(Date.now() / 1000) + 60 * 10; // 10 minutes
@@ -34,7 +32,7 @@
 
      0,
      path,
-     leveragedYieldFarm,
+     leveragedYieldFarmAddress,
      deadline, {
        value: amountToSwap
      }
@@ -42,14 +40,14 @@
    await uniswapTransaction.wait();
 
    const ethBalanceAfter = await hre.ethers.provider.getBalance(deployer.address);
-   console.log("ETH Balance After swap:", ethers.formatEther(ethBalanceAfter));
+   console.log("ETH Balance after:", ethers.formatEther(ethBalanceAfter));
 
-   const daiBalanceAfter = await dai.balanceOf(leveragedYieldFarm);
-   console.log("DAI Balance After swap:", ethers.formatEther(daiBalanceAfter))
+   const daiBalanceAfter = await dai.balanceOf(leveragedYieldFarmAddress);
+   console.log("DAI Balance after:", ethers.formatUnits(daiBalanceAfter));
    console.log("Swap complete!");
- }
+   }
 
- main().catch((error) => {
+  main().catch((error) => {
    console.error(error);
    process.exitCode = 1;
  })
