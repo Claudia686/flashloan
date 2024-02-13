@@ -199,8 +199,7 @@ contract LeveragedYieldFarm is IFlashLoanRecipient {
             (data.flashAmount + feeAmounts[0])
         );
     }
-
-
+    
 function getBalance() external view returns (uint256) {
     return dai.balanceOf(address(this));
 }
@@ -229,7 +228,7 @@ function getContractBalance() external view returns (uint256) {
 
     function handleWithdraw() internal returns (bool) {
         uint256 balance;
-
+        
         // Get curent borrow Balance
         balance = cDai.borrowBalanceCurrent(address(this));
 
@@ -244,7 +243,6 @@ function getContractBalance() external view returns (uint256) {
 
         // Redeem cDai
         cDai.redeem(balance);
-
         return true;
     }
 
