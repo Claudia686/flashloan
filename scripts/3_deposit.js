@@ -8,8 +8,8 @@ const ERC20 = require("@openzeppelin/contracts/build/contracts/ERC20.json")
 async function main() {
   const [deployer] = await hre.ethers.getSigners();
   const daiAddress = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
-  const leveragedYieldFarmAddress = "0x0B32a3F8f5b7E5d315b9E52E640a49A89d89c820";
   const cDAI = "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643";
+  const leveragedYieldFarmAddress = config["31337"].leveragedYieldFarmAddress.address;
   const initialAmount = ethers.parseEther('1', 'ether');
 
   // Setup contracts...
@@ -18,9 +18,10 @@ async function main() {
 
   const leveragedYieldFarm = await new ethers.Contract(
     leveragedYieldFarmAddress,
-    ['function depositDai(uint256 initialAmount) external returns(bool)', 
-      ],
-    deployer);
+    ['function depositDai(uint256 initialAmount) external returns(bool)',
+     ],
+    deployer
+    );
 
   const daiBalanceBefore = await dai.balanceOf(leveragedYieldFarmAddress);
   console.log("DAI Balance before:", ethers.formatUnits(daiBalanceBefore, 18));
@@ -30,7 +31,7 @@ async function main() {
 
   const depositTransaction = await leveragedYieldFarm.depositDai(initialAmount);
   await depositTransaction.wait();
-  
+
   const daiBalanceAfter = await dai.balanceOf(leveragedYieldFarmAddress);
   console.log("DAI Balance after:", ethers.formatUnits(daiBalanceAfter, 18));
 

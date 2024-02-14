@@ -8,23 +8,22 @@
  async function main() {
    const [deployer] = await hre.ethers.getSigners();
    const daiAddress = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
-   const leveragedYieldFarmAddress = "0x0B32a3F8f5b7E5d315b9E52E640a49A89d89c820";
    const cDAI = "0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643";
+   const leveragedYieldFarmAddress = config["31337"].leveragedYieldFarmAddress.address;
    const COMP = "0xc00e94Cb662C3520282E6f5717214004A7f26888";
-   const comptrollerAddress = "0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B";
+
    const initialAmount = ethers.parseEther('1', 'ether');
 
    // Setup contracts...
    const dai = new ethers.Contract(daiAddress, ERC20.abi, deployer);
    const cDai = new ethers.Contract(cDAI, ERC20.abi, deployer);
    const compToken = new ethers.Contract(COMP, ERC20.abi, deployer);
-   const comptroller = new ethers.Contract(comptrollerAddress, ERC20.abi, deployer);
 
-   const leveragedYieldFarm = await new ethers.Contract(
+   const ABI = ['function withdrawDai(uint256 initialAmount)external returns(bool)', ];
+   const leveragedYieldFarm = await new
+   ethers.Contract(
      leveragedYieldFarmAddress,
-     ['function withdrawDai(uint256 initialAmount) external returns(bool)',
-      
-     ],
+     ABI,
      deployer
    );
 

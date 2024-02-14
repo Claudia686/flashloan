@@ -1,9 +1,7 @@
 # Leveraged Yield Farm using Flash Loans
-
 Make use of a Flash loan from Balancer to earn more from Compound. 
 
 ## Technology Stack & Tools
-
 - [Solidity](https://docs.soliditylang.org/en/v0.8.17/) (Writing Smart Contracts)
 - Javascript (Testing)
 - [Hardhat](https://hardhat.org/) (Development Framework)
@@ -48,3 +46,4 @@ Before running any scripts, you'll want to create a .env file with the following
     - Example Uniswap FlashSwap can be [found here](https://github.com/Uniswap/uniswap-v2-periphery/blob/master/contracts/examples/ExampleFlashSwap.sol)
   * [Aave Flashloan](https://docs.aave.com/developers/guides/flash-loans)
   * [Kollateral](https://www.kollateral.co/) - A liquidity aggregator 
+

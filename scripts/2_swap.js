@@ -8,7 +8,7 @@
  async function main() {
    const [deployer] = await hre.ethers.getSigners();
    const daiAddress = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
-   const leveragedYieldFarmAddress = "0x0B32a3F8f5b7E5d315b9E52E640a49A89d89c820";
+   const leveragedYieldFarmAddress = config["31337"].leveragedYieldFarmAddress.address;
    const UNISWAP_ROUTER = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";
 
    // Setup DAI contract...
