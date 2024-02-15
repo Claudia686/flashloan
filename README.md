@@ -102,3 +102,33 @@ Before running any scripts, you'll want to create a .env file with the following
     5. **Wait for Confirmation:** the script waits for the deposit transaction to be confirmed.
     6. **Balance Update:** DAI and cDAI balances are updated after the deposit.
 
+    // Withdraw script
+  ### The script sets up contract addresses for DAI, cDAI, the leveraged    yield farming contract, and COMP token.
+    * It also specifies the initial withdrawal amount in DAI.
+
+  ## 1. Run Withdraw Script
+     `npx hardhat node`
+     `npx hardhat run scripts/1_deploy.js --network localhost`
+     `npx hardhat run scripts/2_swap.js --network localhost`
+     `npx hardhat run scripts/3_deposit.js --network localhost`
+     `npx hardhat run scripts/4_withdraw.js --network localhost`
+
+  ## 2. Expected Results:
+   - ETH Balance before withdrawal 
+   - DAI Balance before withdrawal 
+   - cDAI Balance before withdrawal 
+   - COMP Balance before withdrawal 
+   - ETH Balance after withdrawal 
+   - DAI Balance after withdrawal 
+   - cDAI Balance after withdrawal 
+   - COMP Balance after withdrawal 
+   * These results will be logged to the console, indicating the completion of the withdraw.
+
+  ## 3. Understanding the Script
+   1. **Initialization:** Key contract addresses such as DAI, cDAI, COMP, and the leveraged yield farming contract are defined
+   2. **Setup Contracts:** Instances of ERC20 contracts for DAI, cDAI, and COMP are created using their respective addresses and ABI (Application Binary Interface).
+   3. **Balance Retrieval:** ETH, DAI, cDAI and COMP balances are retrieved before the withdraw.
+   4. **Witdrawal Transaction:** The script initiates a withdrawal transaction by calling the withdrawDai function on the leveraged yield farming contract with the specified initial amount of DAI.
+   5. **Wait for Confirmation:** the script waits for the withdrawal  transaction to be confirmed.
+   6. **Balance Update:** ETH, DAI, cDAI and COMP balances are updated after the withdrawal.
+
