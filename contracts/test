@@ -1,0 +1,30 @@
+Flash Loan Masterclass Challenge.
+
+Challenge
+Unfortunately it seems like a call to withdrawDai() has a high gas usage, so the challenge at hand is to try and get that number down as best as you can!
+Note that before you begin actual coding or trying to solve the gas issue, try to identify in the LeveragedYieldFarm what line or lines of code may give hints to what is causing the high gas!
+
+// Use flash loan to payback borrowed amount
+ withdrawDai()
+        bool isDeposit = false; //false means withdraw
+        getFlashLoan(daiAddress, flashLoanAmount, totalAmount, isDeposit); // execution goes to `receiveFlashLoan`
+
+2 // Claim COMP tokens
+        comptroller.claimComp(address(this));
+
+// Withdraw COMP tokens
+compToken.transfer(owner, compToken.balanceOf(address(this)));
+Transferring a large amount of COMP tokens, may increase gas usage due to large data size and more computational steps, same with Dai if the contract holds a considerable amount of DAI tokens the gas cost of transferring a larger balance will be higher.
+
+3 // Withdraw Dai to the wallet
+        dai.transfer(owner, dai.balanceOf(address(this)));
+
+
+Gas-Efficient Flash Loan Handling:
+The primary gas-intensive operation in  withdrawDai function is the flash loan, review the implementation of the vault contract's flashLoan and receiveFlashLoan functions to ensure they are gas-efficient. Optimize the logic inside these functions to minimize unnecessary computations.
+Modification for withdrawDai:
+
+
+
+
+

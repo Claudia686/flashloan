@@ -25,7 +25,7 @@ interface IComptroller {
         address[] calldata
     ) external returns (uint256[] memory);
 
-    function claimComp(address holder) external;
+    function claimComp(address[] memory holders, ICToken[] memory cTokens, bool borrowers, bool suppliers) external;
 }
 
 contract LeveragedYieldFarm is IFlashLoanRecipient {
@@ -107,7 +107,7 @@ contract LeveragedYieldFarm is IFlashLoanRecipient {
     }
 
     /// @notice Always keep at least 1 DAI in the contract
-    function withdrawDai(
+   function withdrawDai(
         uint256 initialAmount
     ) external onlyOwner returns (bool) {
         // Total deposit: 30% initial amount, 70% flash loan
@@ -122,8 +122,16 @@ contract LeveragedYieldFarm is IFlashLoanRecipient {
 
         // Handle repayment inside handleWithdraw() function
 
+        address[] memory holders = new address[](1);
+        holders[0] = address(this);
+        ICToken[] memory cTokens = new ICToken[](1);
+        cTokens[0] = cDai;
+
+        bool borrowers = true;
+        bool suppliers = false;
+
         // Claim COMP tokens
-        comptroller.claimComp(address(this));
+        comptroller.claimComp(holders, cTokens, borrowers, suppliers);
 
         // Withdraw COMP tokens
         compToken.transfer(owner, compToken.balanceOf(address(this)));
@@ -147,7 +155,7 @@ contract LeveragedYieldFarm is IFlashLoanRecipient {
                 flashAmount: flashAmount,
                 totalAmount: totalAmount,
                 isDeposit: isDeposit
-            })
+            });
         );
 
         // Token to flash loan, by default we are flash loaning 1 token.
